@@ -1,0 +1,257 @@
+/*Things to do
+1. Move p1 and p2 to right spot
+2. Make login and sign up buttons and move to right spot
+3.add photos to cards and make them clickable links to species list
+4.make logo and put under header 
+*/
+
+
+
+body{
+    background-color: #e7e1d7 ;
+    position: relative;
+}
+h1{
+    color:#27190d;
+    font-size: 70px;
+    font-family: 'Gagalin', sans-serif;
+}
+
+/*move p1 to right spot*/
+p1{
+    color:#27190d;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: bold;
+    font-size:25px;
+    position: absolute;
+    margin-top:120px;
+    
+}
+p2{
+    color:#27190d;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 23px;
+    position: absolute;
+    font-weight: bold;
+    margin-top: 32px;
+    /*move p2 to right spot*/
+    margin-left: 212px;
+
+    text-align: center;
+
+}
+
+a.signupBTN{
+    position: absolute;
+    background-color: #e7e1d7;
+    border-radius: 10px;
+    text-align: center;
+    color:#27190d;
+    font-weight: bold;
+    font-family: fredoka;
+    font-size: 23px;
+    width: 120px;
+    height:40px;
+    bottom:40px;
+    left: 180px;
+
+}
+a.loginBTN{
+    position: absolute;
+    background-color: #e7e1d7;
+    border-radius: 10px;
+    text-align: center;
+    color:#27190d;
+    font-weight: bold;
+    font-family: fredoka;
+    font-size: 23px;
+    width: 120px;
+    height:40px;
+    bottom:40px;
+    left: 537px;
+}
+
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /*centers boxes on screen*/
+    align-items: stretch; /*makes boxes same height*/
+    gap:10px;
+    padding: 20px;
+}
+
+.headerDiv{
+    text-align: center;
+    
+}
+.headerDiv img{
+	margin-top:20px;
+
+}
+
+.categoiesDiv, .headerDiv{
+    color:#27190d;
+    background-color:#a0b69c;
+    position: relative;
+   
+    width: 891px;
+    height: 503px;
+    box-sizing: border-box; /*makes sure padding doesnt affect width and height*/
+    z-index: 1;
+
+}
+
+.categoriesList{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 40px;
+    margin-left:35px;
+    gap:65px;
+    flex: 1;
+}
+
+/*makes all cards equal in size*/
+.flex-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 150px; /*issue width wont change from 150px even when set at 1000px*/
+    height: 150px;
+
+    border-radius: 30px;
+    
+    background-color:#e7e1d7;
+    
+    
+    font-family: 'Gagalin', sans-serif;
+    
+}
+p4{
+    position: absolute;
+    margin-top: 160px;
+    font-size:20px;
+    text-align: center;
+}
+
+/*put photos and make these clickable links to species list*/
+.lizardsCard{
+}
+.geckosCard{
+   
+
+}
+.shelledCard{
+    
+}
+
+
+
+
+
+/*search bar and button*/
+.searchBarDiv {
+    position: relative; 
+    display: inline-block;
+}
+/* Targets ONLY the icon inside the Top Search */
+.searchBarDiv .material-symbols-outlined {
+    position: absolute;
+    right: -334px; 
+    top: 50%;
+    
+}
+.searchInput{
+    position: absolute;
+    padding: 5px;
+    margin:0px;
+    border: 2px solid #6d6054;
+    border-radius: 20px;
+    font-size: 16px;
+    background-color: #e7e1d7;
+    margin-left:100px;
+    width:666px;
+}
+
+.searchBTN{
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background: none; /* removes the gray box if you want just the icon */
+    border: none;      /* removes the border */
+    padding: 5px;
+    left:410px;
+    top:50%;
+    z-index:2;
+    
+}
+
+
+
+/*Triage Div and Symptom Search*/
+
+.triageDiv{
+    color:#27190d;
+    background-color:#a0b69c;
+    position: relative;
+    height: 338px;
+    width: 1796px;
+    margin-left:25px;
+    z-index: 1;
+    text-align: center;
+
+}
+.symptomSearch{
+    position: absolute;
+    z-index: 2;
+    margin-top:125px;
+    margin-left:808px;
+    align-items: center;
+    
+}
+
+.symptomInput{
+    padding: 10px;
+    border: 2px solid #6d6054;
+    border-radius: 20px;
+    font-size: 16px;
+    background-color: #e7e1d7;
+    
+}
+.symptomSearchBTN{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none; /* removes the gray box if you want just the icon */
+    border: none;      /* removes the border */
+    padding: 5px;
+    
+}
+
+/* search icon */
+.symptomSearch .material-symbols-outlined {
+    position: absolute;
+    right:10px;
+    top:10px;
+    font-size: 24px; 
+    color: #27190d; 
+}
+
+p3{
+    display:block;
+    color:#27190d;
+    position: absolute;
+    text-align: center;
+    margin-left:100px;
+    margin-right: 50px;;
+    padding:20px;
+    z-index:1;
+    font-size: 35px;
+    font-family: 'Fredoka';
+    font-weight: bold;
+                                                
+
+
+}

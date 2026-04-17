@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ectothermedia Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+
+    <body>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/ectother_icon.png') }}" alt="Logo">
+        </div>
+        
+        <div class="register_box">
+        <form action="{{ url_for('register') }}" method="POST">
+            <h2>Register</h2>
+
+                <input class="register_subbox" type="text" name="username" placeholder="Choose a Username" required>
+                <input class="register_subbox" type="password" name="password" placeholder="Create a password" required>
+                
+                {% if error_msg %}
+                    <p class="error">{{ error_msg }}</p>
+                {% endif %}
+                
+                <div class="buttons">
+                    <button type="submit" class="submission_button">
+                        <img src="{{ url_for('static', filename='images/register_button.png') }}" alt="register">
+                    </button>
+                    <a href="/login" class="other_button">Existing User?</a> 
+                    *Remember to update account to house a way to change pw if forgotten*
+                </div>
+            </form>
+        </div>
+        
+    </body>
+</html>

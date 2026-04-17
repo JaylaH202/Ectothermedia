@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html><head>
+    <title>ECTOTHERMEDIA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/info.css') }}">
+     <link href="https://fonts.cdnfonts.com/css/gagalin" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Fredoka' rel='stylesheet'>
+   
+</head>
+<body>
+
+
+	
+	 <div class="page-wrapper">
+        <div class="care-card">
+
+            <!-- LEFT SIDE -->
+            <div class="left-column">
+
+                <!-- image box -->
+                
+                <div class="image-box">
+                 <img src="{{ url_for('static', filename='images/' + animal[2].replace(' ', '_') + '.png') }}" width=100px>
+
+                </div>
+               
+                <!-- pdf section -->
+                <div class="pdf-section">
+                    <p class="pdf-text">
+                        {{ animal[2] }} Care Sheet<br>
+                        Download now!
+                    </p>
+
+                    <a href="{{url_for('download', name=animal[2]) }} " class="download-btn">{{ animal[2] }}<br>
+                        download link
+                    </a>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="right-column">
+
+                <!-- main headings -->
+                <div class="title-block">
+                    <h1>{{animal[2]}}</h1>
+                    <h2>{{animal[3]}}</h2>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- overview -->
+                <section class="info-section">
+                    <h3>Overview</h3>
+                    <table>
+                        <tbody><tr>
+                            <td>Max Size</td>
+                            <td>{{ animal[6] }} inches </td>
+                        </tr>
+                        <tr>
+                            <td>Lifespan</td>
+                            <td> {{ animal[4] }} - {{animal[5] }} years</td>
+                        </tr>
+                        <tr>
+                            <td>Habitat</td>
+                            <td> {{ animal[7] }} </td>
+                        </tr>
+                     
+                    </tbody></table>
+                </section>
+
+                <!-- enclosure -->
+                <section class="info-section">
+                    <h3>Enclosure</h3>
+                    <table>
+                        <tbody><tr>
+                            <td>Enclosure Size</td>
+                            <td> {{enclosure[3]}}</td>
+                        </tr>
+                        <tr>
+                            <td>Enclosure Type</td>
+                            <td> {{enclosure[2]}}</td>
+                        </tr>
+                        <tr>
+                            <td>Heat Source</td>
+                            <td>{{environment[2]}}</td>
+                        </tr>
+                        <tr>
+                            <td>Basking Temperature</td>
+                            <td>{{environment[3]}} - {{environment[4]}}°F</td>
+                        </tr>
+                 
+                        <tr>
+                            <td>Humidity</td>
+                            <td>{{environment[8]}}</td>
+                        </tr>
+                        <tr>
+                            <td>UVB %</td>
+                            <td>{{environment[7]}}</td>
+                        </tr>
+                    </tbody></table>
+                </section>
+
+                <!-- diet -->
+                <section class="info-section">
+                    <h3>Diet and Hydration</h3>
+                    <table>
+                        <tbody><tr>
+                            <td>Main Foods</td>
+                            <td>{{diet[2]}}</td>
+                        </tr>
+                          <tr>
+                            <td>Water Source</td>
+                            <td>{{enclosure[4]}}</td>
+                        </tr>
+                        <tr>
+                            <td>Water Temperature</td>
+                            <td>{{environment[5]}} - {{environment[6]}}°F</td>
+                        </tr>
+                        <tr>
+                            <td>Supplements</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Adult Feeding Frequency</td>
+                            <td></td>
+                        </tr>
+                    </tbody></table>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+
+</body></html>

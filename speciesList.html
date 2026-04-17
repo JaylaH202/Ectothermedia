@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECTOTHERMEDIA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/speciesList.css') }}">
+    <link href="https://fonts.cdnfonts.com/css/gagalin" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Fredoka' rel='stylesheet'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
+</head>
+<body>
+    <h1>{{ category.capitalize() }}</h1>
+    <div class="container"> 
+        {% for animal in animals %}
+            <a href="{{ url_for('infoPage', name=animal[0]) }}">
+
+                <div class="flex-item box">
+                    <img src="{{ url_for('static', filename='images/' + animal[0].replace(' ', '_') + '.png') }}" width=200px>
+                </div>
+                 <p>{{animal[0]}}</p>
+            </a>
+        {% endfor %}
+
+    </div>
+        
+
+</body>
+</html>

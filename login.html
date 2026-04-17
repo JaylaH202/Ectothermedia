@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ectothermedia Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+    <body>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/ectother_icon.png') }}" alt="Logo">
+        </div>
+        
+        <div class="login_box">
+        <form action="{{ url_for('login') }}" method="POST">
+            <h2>Login</h2>
+
+                <input class="login_subbox" type="text" name="username" placeholder="Username" required>
+                <input class="login_subbox" type="password" name="password" placeholder="Password" required>
+                
+                {% if error_msg %}
+                    <p class="error">{{ error_msg }}</p>
+                {% endif %}
+                
+                <div class="buttons">
+                    <button type="submit" class="submission_button">
+                        <img src="{{ url_for('static', filename='images/login_button.png') }}" alt="login">
+                    </button>
+                    <a href="/register" class="other_button">New User?</a>
+                    <a href="/resetpassword" class="other_button">Forgot Password?</a> 
+                    *Remember to update account to house a way to change pw if forgotten*
+                </div>
+            </form>
+        </div>
+        
+    </body>
+</html>

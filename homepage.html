@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECTOTHERMEDIA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+    <link href="https://fonts.cdnfonts.com/css/gagalin" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Fredoka' rel='stylesheet'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
+</head>
+<body>
+
+<div class= "container">
+    <div class ="headerDiv">
+        
+        <img src="{{ url_for('static', filename='images/ectother_icon.png') }}"width="300" height="300">
+    </div>
+
+
+    <div class="categoiesDiv">
+        <div class="searchBarDiv">
+            <input class= "searchInput" type="text" placeholder="Search..." name="search"> 
+            <button class = "searchBTN" type="submit">
+                 <span class="material-symbols-outlined">search</span>
+            </button>
+        </div>
+        
+        <div class="categoriesList" >
+                <a href="{{ url_for('speciesList', name='Lizards') }}"> <!-- connects frontend to backend-->
+                    <div class="flex-item lizardsCard">
+                        <img src="{{ url_for('static', filename='images/Lizard.png') }}"width="130" height="130">
+
+                        <p4>LIZARDS</p4>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('speciesList', name='Geckos') }}"> <!-- connects frontend to backend-->
+                    <div class="flex-item geckosCard">
+                            <img src="{{ url_for('static', filename='images/lepGecko.png') }}"width="130" height="130">
+
+                        <p4>GECKOS</p4>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('speciesList', name='Shelled') }}"> <!-- connects frontend to backend-->
+                    <div class="flex-item shelledCard">
+                            <img src="{{ url_for('static', filename='images/turtle.png') }}"width="130" height="130">
+
+                        <p4>SHELLED REPTILES</p4>
+                    
+                    </div>
+                </a>
+                
+        </div>
+        <p2>Track your reptile pet's cycles with ease!<br>Log in or Sign up to get started.</p2>
+
+        <a href ="login" class="loginBTN">Login</a>
+        <a href ="register" class="signupBTN">Sign Up</a>
+    </div>
+</div>
+
+
+<div class="triageDiv">
+    <p3>
+        Concerned about your reptile’s health?
+Use our Symptom Search feature to enter the signs you’re observing and explore possible conditions associated with those symptoms.
+    </p3>
+    <div class="symptomSearch">
+        <input class="symptomInput" type="text" placeholder="Enter Symptoms" name="symptoms"> 
+        <button class="symptomSearchBTN" type="submit" >
+            <span class="material-symbols-outlined">search</span>
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>

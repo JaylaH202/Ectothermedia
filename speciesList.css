@@ -1,0 +1,52 @@
+body{
+    background-color: #e7e1d7 ;
+    position: relative;
+}
+
+h1{
+    background-color: #4b4e3d;
+    color:#e7e1d7 ;
+    text-align: center;
+    width: 1500px;
+    border-radius: 30px;
+    margin-left:120px;
+
+}
+
+.container{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 40px;
+    flex-wrap: wrap;
+    margin-left:35px;
+    gap:92px;
+    flex: 1;
+}
+
+.container a {
+    text-decoration: none;
+}
+
+/*makes all cards equal in size*/
+.flex-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    width: 221px; 
+    height: 207px;
+
+    border-radius: 14px;
+    
+    background-color:#150f04;
+    
+    
+    font-family: 'Gagalin', sans-serif;
+    
+}
+p {
+    color: #2d2011;
+   
+    
+}

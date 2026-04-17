@@ -1,0 +1,180 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #e7e1d7; 
+    font-family: Arial, sans-serif;
+    color: #4d473b;
+}
+
+/* center whole card */
+.page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px;
+}
+
+/* large green rounded container */
+.care-card {
+    width: 1551px;
+    min-height: 1200px;
+    background-color: #a8b89f; /* sage green */
+    border-radius: 35px;
+    padding: 35px 40px;
+    box-sizing: border-box;
+
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 35px;
+}
+
+/* LEFT COLUMN */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* image box background */
+.image-box {
+    width: 248px;
+    height: 216px;
+    background-color: #f3ece2; /* cream frame */
+    border-radius: 25px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top:27px;
+}
+
+/* image itself */
+.image-box img {
+    width: 100%;
+    height: 59%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* paragraph/caption under image */
+.fun-facts {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.fun-facts h3 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.fun-facts p {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* pdf text area */
+.pdf-section {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.pdf-text {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 18px;
+}
+
+/* pdf download button */
+.download-btn {
+    display: inline-block;
+    background-color: #efe6d8; /* beige button */
+    color: #4d473b;
+    text-decoration: none;
+    padding: 14px 22px;
+    border-radius: 22px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.download-btn:hover {
+    background-color: #e4dac9;
+}
+
+/* RIGHT COLUMN */
+.right-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* headings positioning */
+.title-block {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.title-block h1 {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 800;
+}
+
+.title-block h2 {
+    margin: 5px 0 18px 0;
+    font-size: 34px;
+    font-weight: 800;
+}
+
+/* divider line */
+.divider {
+    width: 100%;
+    border-top: 4px dashed #5a5548;
+    margin-bottom: 25px;
+}
+
+/* each section */
+.info-section {
+    margin-bottom: 28px;
+}
+
+/* section heading */
+.info-section h3 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 10px 0;
+}
+
+/* tables */
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    table-layout: fixed;
+    background-color: transparent;
+}
+
+/* table cells */
+td {
+    border: 2px solid #f4f1ea;
+    height: 42px;
+    padding: 8px 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #4d473b;
+    vertical-align: middle;
+}
+
+/* optional: make first column slightly bolder */
+td:first-child {
+    font-weight: 700;
+    width: 40%;
+}
+
