@@ -9,7 +9,9 @@
 </head>
 <body>
 
+<!-- Main landing container (logo + categories) -->   
 <div class= "container">
+    <!-- Header/logo section -->
     <div class ="headerDiv">
         
         <img src="{{ url_for('static', filename='images/ectother_icon.png') }}"width="300" height="300">
@@ -17,6 +19,7 @@
 
 
     <div class="categoiesDiv">
+        <!-- Top search bar and  -->
         <div class="searchBarDiv">
             <input class= "searchInput" type="text" placeholder="Search..." name="search"> 
             <button class = "searchBTN" type="submit">
@@ -24,6 +27,7 @@
             </button>
         </div>
         
+        <!-- Category selection (links to backend routes for species list pages) -->
         <div class="categoriesList" >
                 <a href="{{ url_for('speciesList', name='Lizards') }}"> <!-- connects frontend to backend-->
                     <div class="flex-item lizardsCard">
@@ -58,19 +62,221 @@
     </div>
 </div>
 
-
+<!-- TRIAGE SECTION: symptom-to-ailment search -->
 <div class="triageDiv">
     <p3>
         Concerned about your reptile’s health?
 Use our Symptom Search feature to enter the signs you’re observing and explore possible conditions associated with those symptoms.
     </p3>
+     
+ <!-- Symptom input + search trigger -->
     <div class="symptomSearch">
-        <input class="symptomInput" type="text" placeholder="Enter Symptoms" name="symptoms"> 
+        <input onclick="symptListFunction()" class="symptomInput" type="text" placeholder="Enter Symptoms" name="symptoms" id="symptomInput"> 
         <button class="symptomSearchBTN" type="submit" >
             <span class="material-symbols-outlined">search</span>
         </button>
+    </div>
+
+   <!-- Hidden symptom checklist (appears when input is clicked) -->
+    <div class="symptomList" style="display: none;" id="symptomList">
+        <h4>Symptoms</h4>
+        <label>
+        <input type="checkbox" class="symptomBox" value="Lethargy">
+        Lethargy
+        </label>
+
+        <label>
+        <input type="checkbox" class="symptomBox" value="Loss of appetite">
+        Loss of appetite
+        </label>
+
+        <label>
+        <input type="checkbox" class="symptomBox" value="Discharge">
+        Discharge
+        </label>
+
+        <button id="enterBTN" class="enterBTN">ENTER</button>
 
     </div>
+   
+    <!-- RESULTS SECTION (hidden until ENTER is clicked) -->
+    <div id="resultsSection" style="display: none;">
+    
+    <div class="resultsContainer">
+
+        <!-- LEFT: dynamically generated condition/ailment results -->
+        <div class="conditionsBox">
+            <h3>Conditions that Match Symptoms</h3>
+
+            <!-- Container where JS inserts condition "boxes" -->
+            <div id="conditionsList"></div>
+            
+            <button id="backBTN" class="enterBTN">BACK</button>
+
+        </div>
+
+        <!-- RIGHT (state 1): shows selected symptoms -->
+        <div id="symptomsBox" class="symptomsBox">
+            <h3>My Reptile’s Symptoms</h3>
+            <div class="selectedSymptoms" id="selectedSymptoms"></div>
+
+        </div>
+        
+        <!-- RIGHT (state 2): shows condition details when clicked -->
+        <div id="detailsBox" class="detailsBox" style="display: none;">
+            <h3>Details & Treatment</h3>
+        <div id="selectedCondition"></div>
+        </div>
+
+    </div>
+
+    
+
+    
+  
+</div>
+
+
+<script>
+
+// All symptom checkboxes
+const checkboxes = document.querySelectorAll('.symptomBox');
+// Search input field
+const symptomInput = document.getElementById('symptomInput');
+// Buttons
+const enterBtn = document.getElementById("enterBTN");
+const backBtn = document.getElementById("backBTN");
+
+
+// Displays dropdown list of symptoms when search bar is clicked
+function symptListFunction(){
+    document.getElementById("symptomList").style.display = "block";
+}
+
+
+// Returns array of checked symptom values
+function getSelectedSymptoms() {
+    const selected = [];
+
+    checkboxes.forEach(box => {
+        if (box.checked) {
+            selected.push(box.value);
+        }
+    });
+
+    return selected;
+}
+
+// Updates the text input with selected symptoms
+function updateSymptomInput() {
+    const selected = getSelectedSymptoms();
+    // Join selected symptoms with commas and update input field
+    symptomInput.value = selected.join(', ');
+}
+
+// When user checks/unchecks boxes it updates input text
+checkboxes.forEach(box => {
+    box.addEventListener('change', updateSymptomInput);
+});
+
+// Runs when user clicks ENTER
+enterBtn.addEventListener("click", () => {
+    //hide symptom box
+    document.getElementById("symptomList").style.display = "none";
+    // Get selected symptoms from checkboxes
+    const selected = getSelectedSymptoms();
+
+    // show results section
+    document.getElementById("resultsSection").style.display = "block";
+    document.getElementById("conditionsList").style.display = "block";
+     // Show selected symptoms panel (right side)
+    document.getElementById("symptomsBox").style.display = "block";
+    // Hide details panel (right side)
+    document.getElementById("detailsBox").style.display = "none";
+
+    // fill "My Reptile’s Symptoms"
+    document.getElementById("symptomsBox").style.display = "block";
+    const symptomsDiv = document.getElementById("selectedSymptoms");
+    symptomsDiv.innerHTML = ""; // clear previous results
+
+    // Add each selected symptom as a box in the "My Reptile’s Symptoms" section
+    selected.forEach(symptom => {
+        const item = document.createElement("div");
+        item.textContent = symptom;
+        symptomsDiv.appendChild(item);
+    });
+
+    const conditionsDiv = document.getElementById("conditionsList");
+    conditionsDiv.innerHTML = ""; //clear previous results
+
+    // Create one clickable "condition" per symptom (temporary logic)
+    selected.forEach(symptom => {
+        // For each symptom, create a condition div that is clickable
+        const condition = document.createElement("div");
+
+        // Apply styling class (important for UI)
+        condition.classList.add("conditionBTN");
+
+        // Temporary text (will come from backend later)
+        condition.textContent = `Condition related to ${symptom}`;
+        condition.style.cursor = "pointer"; // Make it look clickable
+        
+        //When a condition is clicked 
+        condition.addEventListener('click', () => {
+            // Hide results section
+            document.getElementById("resultsSection").style.display = "block";
+            // Hide symptoms section
+            document.getElementById("symptomsBox").style.display = "none";
+            // Show details section
+            document.getElementById("detailsBox").style.display = "block";
+
+
+            // Fill details with hardcoded info (replace with backend data later)
+            const detailsDiv = document.getElementById("selectedCondition");
+             detailsDiv.innerHTML = `
+                    <h4>Overview</h4>
+                    <p>Detailed information about ${condition.textContent}. Consult a vet for accurate diagnosis.</p>
+
+                    <h4>Common Symptoms</h4>
+                    <ul>
+                        <li>${symptom}</li>
+                        <li>xxx</li>
+                        <li>xxx</li>
+                    </ul>
+
+                    <h4>Treatment Includes</h4>
+                    <ul>
+                        <li>xxx</li>
+                        <li>xxx</li>
+                        <li>xxx</li>
+                    </ul>
+                `;
+            });
+
+       
+        conditionsDiv.appendChild(condition);
+    });
+});
+
+
+ 
+
+
+
+// BACK button behavior
+// Returns user to symptom selection state
+
+backBtn.addEventListener("click", () => {
+    // hide results section
+    document.getElementById("resultsSection").style.display = "none";
+    // show symptom selection again
+    document.getElementById("symptomList").style.display = "block";
+});
+
+
+
+
+</script>
 
 </div>
 
