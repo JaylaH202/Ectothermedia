@@ -8,21 +8,22 @@ Commented app stuff out to work on PDF
 '''
 
 # Imports the needed libraries and dependencies
-from account.account import *
+#from account.account import *
 from flask import Flask, render_template, request, redirect, url_for
 from psycopg2 import connect
-from flask_weasyprint import render_pdf, HTML
+#from flask_weasyprint import render_pdf, HTML
 
 
 #connect to database
 # we need some sort of secruity here for database connection password and username, but for now we will just hardcode it in the code
-conStr = "host=csdept dbname=capstone2 user=cap2user password=dbx!2917"
-conn = connect(conStr)
+#conStr = "host=csdept dbname=capstone2 user=cap2user password=dbx!2917"
+#conn = connect(conStr)
 
 
 # Creates the webframe through flask
 app = Flask(__name__)
 
+# Displays the main landing page (homepage.html)
 
 @app.route("/")
 def homepage():
@@ -30,24 +31,49 @@ def homepage():
 
 
 
-#Shows all animals from overview table in database, and links to info page for each animal
+# Displays a list of animals based on selected category
+# Example URLs:
+#   /speciesList/Lizards
+#   /speciesList/Geckos
+#   /speciesList/Shelled
+#
+# Queries database and passes results to speciesList.html
 @app.route("/speciesList/<name>")
 def speciesList(name):
+
+    # Create cursor to execute SQL queries
     dbCursor = conn.cursor()
 
+    # Special case:
+    # "Shelled" category includes both tortoises and turtles
     if name == "Shelled":
         dbCursor.execute("SELECT english_name FROM overview WHERE animal_class IN (%s,%s)",("Tortoise", "Turtle"))
     else:
+        # Standard case: filter by exact category
         dbCursor.execute("SELECT english_name FROM overview WHERE animal_class = %s", (name,))
 
+    # Retrieve all matching rows
     rows = dbCursor.fetchall()
+
+    #Close cursor after query
     dbCursor.close()
     
+    # Send data to template:
+    # - animals: list of species names
+    # - category: used for page heading/display
     return render_template('speciesList.html', animals=rows, category=name)
 
 
 #Indiviual Species Page
 
+# Displays detailed information about ONE animal
+# URL example: /info/Leopard Gecko
+#
+# Pulls data from multiple tables:
+#   - overview (general info)
+#   - diet_requirements
+#   - environmental_requirements
+#   - enclosure_details
 @app.route("/info/<name>")
 def infoPage(name):
     dbCursor = conn.cursor()
@@ -56,6 +82,7 @@ def infoPage(name):
     dbCursor.execute("SELECT * FROM overview WHERE english_name = %s;",(name,))
     
     animal = dbCursor.fetchone()
+
     #scientific name from overview
     sci_name = animal[3]
     
@@ -70,13 +97,23 @@ def infoPage(name):
     enclosure = dbCursor.fetchone()
     
     dbCursor.close()
+
+    # Pass all retrieved data to the info.html template for rendering
     return render_template('info.html',animal=animal, diet=diet,environment=environment,enclosure=enclosure)
 
+# Generates a downloadable PDF version of the animal info page
+# Uses the SAME data as infoPage route
+# Flow:
+#   1. Query database
+#   2. Render HTML template
+#   3. Convert HTML to PDF
 @app.route("/download/<name>")
 def download(name):
 	
     dbCursor = conn.cursor()
     
+    #Same logic as infoPage
+
     #overview row 
     dbCursor.execute("SELECT * FROM overview WHERE english_name = %s;",(name,))
     
@@ -96,10 +133,12 @@ def download(name):
     
     dbCursor.close()
     
+    # Render HTML template as a string
     html = render_template('info.html',animal=animal, diet=diet,environment=environment,enclosure=enclosure)
+    
+    # Convert HTML string into a downloadable PDF
     return render_pdf(HTML(string=html))
 	
-
 
 # DEBUGGING | DEBUGGING | DEBUGGING
 # The method for loading the login page and handeling the page functionality
