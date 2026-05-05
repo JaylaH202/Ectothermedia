@@ -11,6 +11,7 @@ Commented app stuff out to work on PDF
 #from account.account import *
 from flask import Flask, render_template, request, redirect, url_for
 from psycopg2 import connect
+import os
 #from flask_weasyprint import render_pdf, HTML
 
 
@@ -18,6 +19,11 @@ from psycopg2 import connect
 # we need some sort of secruity here for database connection password and username, but for now we will just hardcode it in the code
 #conStr = "host=csdept dbname=capstone2 user=cap2user password=dbx!2917"
 #conn = connect(conStr)
+conStr = os.environ.get("DATABASE_URL")
+if conStr:
+    conn = connect(conStr)
+else:
+    conn = None
 
 
 # Creates the webframe through flask
