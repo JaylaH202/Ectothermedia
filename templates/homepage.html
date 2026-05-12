@@ -110,7 +110,7 @@ Use our Symptom Search feature to enter the signs you’re observing and explore
 
             <!-- Container where JS inserts condition "boxes" -->
             <div id="conditionsList"></div>
-            
+            <div id="animalCheckboxes" class="animalCheckboxes"></div>
             <button id="backBTN" class="enterBTN">BACK</button>
 
         </div>
@@ -179,6 +179,114 @@ checkboxes.forEach(box => {
     box.addEventListener('change', updateSymptomInput);
 });
 
+
+// temporary logic for demo
+const animalConditions = {
+    Turtle: ["Shell Rot", "Respiratory Infection", "Vitamin A Deficiency"],
+    Lizard: ["Metabolic Bone Disease", "Impaction", "Respiratory Infection"],
+    Gecko: ["Stuck Shed", "Mouth Rot", "Calcium Deficiency"]
+};
+
+// Shows conditions related to selected symptoms (currently 1 condition per symptom for demo purposes)
+function showGeneralResults(selectedSymptoms) {
+    const conditionsDiv = document.getElementById("conditionsList");
+    conditionsDiv.innerHTML = "";
+    // For each selected symptom, create a clickable condition box (temporary logic)
+    selectedSymptoms.forEach(symptom => {
+        const condition = document.createElement("div");
+        condition.classList.add("conditionBTN");
+        condition.textContent = `Ailments related to ${symptom}`;
+        condition.style.cursor = "pointer";
+
+        condition.addEventListener('click', () => {
+            showDetails(condition.textContent, symptom);
+        });
+
+        conditionsDiv.appendChild(condition);
+    });
+}
+
+// Shows conditions related to selected animal category (temporary logic)
+function showAnimalCheckboxes() {
+    const animalDiv = document.getElementById("animalCheckboxes");
+    animalDiv.innerHTML = "";
+
+    ["Turtle", "Lizard", "Gecko"].forEach(animal => {
+        const label = document.createElement("label");
+        label.classList.add("animalLabel");
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.classList.add("animalBox");
+        input.value = animal;
+
+        input.addEventListener("change", () => {
+            document.querySelectorAll(".animalBox").forEach(box => {
+                if (box !== input) box.checked = false;
+            });
+
+            if (input.checked) {
+                showAnimalResults(animal);
+            } else {
+                showGeneralResults(getSelectedSymptoms());
+            }
+        });
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(" " + animal));
+        animalDiv.appendChild(label);
+    });
+}
+
+// 
+function showAnimalResults(animal) {
+    const conditionsDiv = document.getElementById("conditionsList");
+    conditionsDiv.innerHTML = "";
+
+    animalConditions[animal].forEach(conditionName => {
+        const condition = document.createElement("div");
+        condition.classList.add("conditionBTN");
+        condition.textContent = conditionName;
+        condition.style.cursor = "pointer";
+
+        condition.addEventListener("click", () => {
+            showDetails(conditionName, animal);
+        });
+
+        conditionsDiv.appendChild(condition);
+    });
+}
+
+// Shows details for a specific condition (currently hardcoded info for demo purposes)
+function showDetails(conditionName, context) {
+    document.getElementById("symptomsBox").style.display = "none";
+    document.getElementById("detailsBox").style.display = "block";
+
+    const detailsDiv = document.getElementById("selectedCondition");
+
+    detailsDiv.innerHTML = `
+        <h4>Overview</h4>
+        <p>${conditionName} is a possible condition connected to ${context}. This is only a basic guide and should not replace a vet visit.</p>
+
+        <h4>Common Symptoms</h4>
+        <ul>
+            <li>Lethargy</li>
+            <li>Loss of appetite</li>
+            <li>Discharge or visible irritation</li>
+        </ul>
+
+        <h4>Treatment Includes</h4>
+        <ul>
+            <li>Check enclosure temperature and lighting</li>
+            <li>Improve cleanliness and humidity control</li>
+            <li>Contact a reptile veterinarian</li>
+        </ul>
+    `;
+}
+
+
+
+
 // Runs when user clicks ENTER
 enterBtn.addEventListener("click", () => {
     //hide symptom box
@@ -194,73 +302,19 @@ enterBtn.addEventListener("click", () => {
     // Hide details panel (right side)
     document.getElementById("detailsBox").style.display = "none";
 
-    // fill "My Reptile’s Symptoms"
-    document.getElementById("symptomsBox").style.display = "block";
+    // Update selected symptoms display
     const symptomsDiv = document.getElementById("selectedSymptoms");
-    symptomsDiv.innerHTML = ""; // clear previous results
-
-    // Add each selected symptom as a box in the "My Reptile’s Symptoms" section
+    symptomsDiv.innerHTML = "";
+    // For each selected symptom, create a div and add to symptoms box
     selected.forEach(symptom => {
         const item = document.createElement("div");
         item.textContent = symptom;
         symptomsDiv.appendChild(item);
     });
 
-    const conditionsDiv = document.getElementById("conditionsList");
-    conditionsDiv.innerHTML = ""; //clear previous results
-
-    // Create one clickable "condition" per symptom (temporary logic)
-    selected.forEach(symptom => {
-        // For each symptom, create a condition div that is clickable
-        const condition = document.createElement("div");
-
-        // Apply styling class (important for UI)
-        condition.classList.add("conditionBTN");
-
-        // Temporary text (will come from backend later)
-        condition.textContent = `Condition related to ${symptom}`;
-        condition.style.cursor = "pointer"; // Make it look clickable
-        
-        //When a condition is clicked 
-        condition.addEventListener('click', () => {
-            // Hide results section
-            document.getElementById("resultsSection").style.display = "block";
-            // Hide symptoms section
-            document.getElementById("symptomsBox").style.display = "none";
-            // Show details section
-            document.getElementById("detailsBox").style.display = "block";
-
-
-            // Fill details with hardcoded info (replace with backend data later)
-            const detailsDiv = document.getElementById("selectedCondition");
-             detailsDiv.innerHTML = `
-                    <h4>Overview</h4>
-                    <p>Detailed information about ${condition.textContent}. Consult a vet for accurate diagnosis.</p>
-
-                    <h4>Common Symptoms</h4>
-                    <ul>
-                        <li>${symptom}</li>
-                        <li>xxx</li>
-                        <li>xxx</li>
-                    </ul>
-
-                    <h4>Treatment Includes</h4>
-                    <ul>
-                        <li>xxx</li>
-                        <li>xxx</li>
-                        <li>xxx</li>
-                    </ul>
-                `;
-            });
-
-       
-        conditionsDiv.appendChild(condition);
-    });
+    showGeneralResults(selected);
+    showAnimalCheckboxes();
 });
-
-
- 
-
 
 
 // BACK button behavior
