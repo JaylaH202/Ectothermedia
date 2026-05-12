@@ -1,11 +1,3 @@
-/*Things to do
-1. Move p1 and p2 to right spot
-2. Make login and sign up buttons and move to right spot
-3.add photos to cards and make them clickable links to species list
-4.make logo and put under header 
-*/
-
-
 
 body{
     background-color: #e7e1d7 ;
@@ -254,4 +246,143 @@ p3{
                                                 
 
 
+}
+
+/* Hidden symptom checkbox dropdown */
+.symptomList{
+    position: absolute;
+    background-color: #e7e1d7;
+    color: #27190d;
+    width: 250px;
+    min-height: 190px;
+    left: 770px;
+    top: 165px;
+    z-index: 5;
+    padding: 15px;
+    text-align: left;
+    font-family: 'Fredoka';
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.symptomList h4{
+    margin: 0 0 10px 0;
+    border-bottom: 3px solid #27190d;
+    font-size: 20px;
+}
+
+.symptomList label{
+    display: block;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.symptomBox{
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+}
+
+.enterBTN{
+    background: none;
+    border: none;
+    color: #27190d;
+    font-family: 'Fredoka';
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Results area */
+#resultsSection{
+    position: absolute;
+    left: 575px;
+    top: 80px;
+    z-index: 4;
+}
+
+.resultsContainer{
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.conditionsBox,
+.symptomsBox,
+.detailsBox{
+    background-color: #e7e1d7;
+    color: #27190d;
+    width: 300px;
+    min-height: 230px;
+    padding: 15px;
+    text-align: left;
+    font-family: 'Fredoka';
+    box-sizing: border-box;
+}
+
+.conditionsBox h3,
+.symptomsBox h3,
+.detailsBox h3{
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    border-bottom: 3px solid #27190d;
+}
+
+#conditionsList{
+    margin-top: 10px;
+}
+
+.conditionBTN{
+    background-color: #b8cfb3;
+    padding: 12px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.conditionBTN:hover{
+    background-color: #a0b69c;
+}
+
+.selectedSymptoms div{
+    background-color: #b8cfb3;
+    padding: 12px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.detailsBox{
+    min-height: 320px;
+}
+
+.detailsBox h4{
+    margin-bottom: 5px;
+    font-size: 17px;
+}
+
+.detailsBox p,
+.detailsBox li{
+    font-size: 15px;
+}
+
+
+
+.animalCheckboxes{
+    margin-top: 20px;
+    display: flex;
+    gap: 25px;
+    font-family: 'Fredoka';
+    font-size: 18px;
+}
+
+.animalLabel{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.animalBox{
+    width: 18px;
+    height: 18px;
 }
