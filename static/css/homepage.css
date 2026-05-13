@@ -195,20 +195,18 @@ p4{
 .triageDiv{
     color:#27190d;
     background-color:#a0b69c;
-    position: relative;
-    height: 338px;
-    width: 1796px;
+    max-width: 1200px;
+	margin: 0 auto;
     margin-left:25px;
     z-index: 1;
     text-align: center;
 
 }
 .symptomSearch{
-    position: absolute;
     z-index: 2;
-    margin-top:125px;
-    margin-left:808px;
-    align-items: center;
+	display: flex;
+    margin-bottom: 25px;
+    justify-content: center;
     
 }
 
@@ -242,7 +240,6 @@ p4{
 p3{
     display:block;
     color:#27190d;
-    position: absolute;
     text-align: center;
     margin-left:100px;
     margin-right: 50px;;
@@ -303,9 +300,7 @@ p3{
 
 /* Results area */
 #resultsSection{
-    position: absolute;
-    left: 575px;
-    top: 80px;
+
     z-index: 4;
 }
 
@@ -313,6 +308,7 @@ p3{
     display: flex;
     gap: 20px;
     align-items: flex-start;
+	flex-wrap: wrap; /*prevents overflow on smaller screens*/
 }
 
 .conditionsBox,
