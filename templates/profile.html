@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ectothermedia | {{ username }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body class="profile-body">
+
+    <!-- Sidebar: User Info in the Corner -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="{{ url_for('static', filename='images/ectother_icon.png') }}" alt="Logo">
+        </div>
+        <div class="user-details">
+            <h2 class="display-name">{{ username }}</h2>
+            <p class="user-id">ID: #00123</p>
+        </div>
+    </aside>
+
+    <!-- Main Content: Pet Rows -->
+    <main class="content-wrapper">
+        <div class="top-bar">
+            <button class="btn-add" onclick="document.getElementById('pet-modal').showModal()">
+                + Add Pet
+            </button>
+        </div>
+
+        <div class="entries-container">
+            <h2 class="section-title">Pet Entries</h2>
+            
+            <div class="pet-list">
+                {% for pet in pets %}
+                <div class="pet-row">
+                    <span class="pet-text">{{ pet.name }} | {{ pet.age }} | {{ pet.gender }} | {{ pet.species }}</span>
+                    
+                    <!-- URL parameters pulled from the formatted string -->
+                    <form action="{{ url_for('removePet', name=pet.name, species=pet.species) }}" method="POST">
+                        <button type="submit" class="btn-remove">Remove</button>
+                    </form>
+                </div>
+                {% else %}
+                <p class="empty-state">No pet entries found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Pet Pop-up -->
+    <dialog id="pet-modal" class="custom-modal">
+        <form action="/profile/add_pet" method="POST" class="modal-form">
+            <h2>New Pet Entry</h2>
+            <input type="text" name="name" placeholder="Pet Name" class="input-field" required>
+            <input type="number" name="age" placeholder="Age" class="input-field" required>
+            <select name="gender" class="input-field select-field">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+            <input type="text" name="species" placeholder="Species" class="input-field" required>
+            
+            <div class="modal-buttons">
+                <button type="submit" class="btn-save">Save Entry</button>
+                <button type="button" class="btn-cancel" onclick="this.closest('dialog').close()">Cancel</button>
+            </div>
+        </form>
+    </dialog>
+
+</body>
+</html>
