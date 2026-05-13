@@ -11,7 +11,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from psycopg2 import connect
 from dotenv import load_dotenv
 import os
-from user.account import Account
+from account.account import Account
 
 #from flask_weasyprint import render_pdf, HTML
 
