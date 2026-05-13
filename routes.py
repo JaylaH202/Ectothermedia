@@ -3,15 +3,16 @@
 # @author Jayla Hall & Allen Russell
 #
 # Handles the routing and logic for each page view.
-'''
-Commented app stuff out to work on PDF
-'''
+
 
 # Imports the needed libraries and dependencies
 #from account.account import *
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from psycopg2 import connect
+from dotenv import load_dotenv
 import os
+from user.account import Account
+
 #from flask_weasyprint import render_pdf, HTML
 
 
@@ -19,15 +20,23 @@ import os
 # we need some sort of secruity here for database connection password and username, but for now we will just hardcode it in the code
 #conStr = "host=csdept dbname=capstone2 user=cap2user password=dbx!2917"
 #conn = connect(conStr)
-conStr = os.environ.get("DATABASE_URL")
-if conStr:
-    conn = connect(conStr)
-else:
+# Load the variables from the .env
+# Find the exact path to the .env file | Had issues with just load_dotenv()
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
+
+# THIS IS WORKING | DO NOT MODIFY | RUN THROUGH TERMINAL
+#
+# Creates the framework through flask and grabs the .env factors
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+try:
+    conn = psycopg2.connect(os.getenv("DATABASE_URL"))
+    print("Database connected successfully!")
+except Exception as e:
+    print(f"Error: Trouble connecting to database: {e}")
     conn = None
 
-
-# Creates the webframe through flask
-app = Flask(__name__)
 
 # Displays the main landing page (homepage.html)
 
@@ -145,102 +154,113 @@ def download(name):
     # Convert HTML string into a downloadable PDF
     return render_pdf(HTML(string=html))
 	
-
-# DEBUGGING | DEBUGGING | DEBUGGING
 # The method for loading the login page and handeling the page functionality
 # @author Allen W.
 # @date 4/14/26
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    cur = conn.cursor() #db cursor for table navigating / accessing
-        # If user submits a registration request
-    if request.method == 'POST':
+
+    # If user submits a registration request
+    if request.method == 'POST': 
+        cursor = conn.cursor() # connect to cursor
         un = request.form.get('username')
         pw = request.form.get('password')
         
-        # Return an error if either field is empty, user needs to submit both fields
-        if not un or not pw:
-            return render_template('register.html', error_msg="Error > Both fields are required to register.")
-        # Return an error if the username is already in use
-        if checkUsername(un):
-            return render_template('register.html', error_msg="Error > Username is already in use.")
+        if not un or not pw: # Fields should not be blank when signing up or logging in
+            return render_template('register.html', error_msg="Error: Both fields needed.")
+        cursor.execute("SELECT 1 FROM accounts WHERE username = %s", (un,)) # Is username already taken?
+        if cursor.fetchone():
+            return render_template('register.html', error_msg="Error: Username already taken.")
         
-        # A try-catch is used to ensure an account creation failure will not crash the webpage, this was used
-        # over implementing a static method in Account to use for creating accounts here.
         try: # If success: Connect the Table and add the account
             acc = Account(un, pw) # Attempts to safely create the account
-            
-            #Adds accounts to table | reminder: remove uid
-            cursor = conn.cursor() 
-            cursor.execute('INSERT INTO accounts (username, password) VALUES (%s, %s)', (un, acc._getPassword())) 
+            cursor.execute('INSERT INTO accounts (username, password) VALUES (%s, %s) RETURNING user_id', (un, acc.getHash())) #Adds account to table
+            # Retrieve the ID from the cursor
+            user_id = cursor.fetchone()
+            user_id = user_id[0]            
             conn.commit() # Save the changes to the database
-            
-            return redirect(url_for('login'))
+            # Session implementation
+            session.clear()           # Clear any old session data
+            session['user_id'] = user_id # actually saves session via framework
+            session['username'] = un  #for display purpose
+            return redirect(url_for('homepage')) # Return user to Home
             
         #If error: retry registration, and display the error to the user 
-        except TypeError as err:
-            return render_template('register.html', error_msg=str(err))
+        except (ValueError, TypeError) as e:
+            conn.rollback() # RESET THE CONNECTION
+            cursor.close()  # Close here            
+            return render_template('register.html', error_msg=str(e))
+        
     # If a registration is not submitted, then assume the user requested to redirect to the registration page. 
     return render_template('register.html')
 
 
 
 
-# WIP | WIP | WIP
 # The method for loading the login page and handeling the page functionality
 # @author Allen W.
 # @date 4/14/26
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    cur = conn.cursor() #db cursor for table navigating / accessing
+
     # If user submits a registration request
     if request.method == 'POST':
+        cursor = conn.cursor() # connect to cursor
         un = request.form.get('username')
         pw = request.form.get('password')
     
-        # Return an error if either field is empty, user needs to submit both fields
-        if not un or not pw:
-            return render_template('login.html', error_msg="Error > Both fields are required to log in.")
+       
+        if not un or not pw: # Return an error if either field is empty, user needs to submit both fields
+            return render_template('login.html', error_msg="Error: Both fields are required to log in.")
+        cursor.execute('SELECT user_id, password FROM accounts WHERE username = %s', (un,))  # Attempt to find an account with the same username as the attempted
+        result = cursor.fetchone()
         
-        cur = conn.cursor()# Connect the cursor
-        # Attempt to find an account with the same username as the attempted
-        cur.execute('SELECT password FROM accounts WHERE username = %s', (un,))
-        result = cur.fetchone()
         # If account with username match found, determine if passwords match
-        if result is not None:
-            t_pass = result[0]
-            # Create the temporary account
-            db_acc = Account(un, pw, t_pass)
+        if result:
+            t_uid = result[0]   # user_id
+            t_hash = result[1].encode('utf-8')  # hashed password
+            t_acc = Account(un, pw) # temporary account
+            t_acc.password._passhash = t_hash # override hash for valid authentication 
             
-            # Authenticate given credentials with those in the DB, and let the user know if success or fail
-            auth = db_acc.authenticate(un, pw)
-            if auth[0]: # Successful authentication
-                # | Temp code for ensuring auth works |
-                print(auth[1])
-                return f"<h1>Success!</h1><p>{auth[1]}</p><a href='/login'>Back to Login</a><a href='/register'>Back to Register</a>"
-            # Else, retry and give the user an error message
-            else:
-                return render_template('login.html', error_msg=f"Error > {auth[1]}.")
-
-        # Else, return an invalid account error
+            if t_acc.authenticate(un, pw):
+                # start the session
+                session.clear()
+                session['user_id'] = t_uid
+                session['username'] = un
+                cursor.close()
+                return redirect(url_for('homepage')) # Redirect to homepage on login
+            
+            else: # error, try again
+                cursor.close()
+                return render_template('register.html', error_msg="Error: Invalid account credentials")                
+    
+        # error, try again
         else:
-            return render_template('login.html', error_msg="Error > No account exists with those credentials.")
+            return render_template('login.html', error_msg="Error: No account exists with those credentials.")
+    
     # No post, load page to get login credentials
     return render_template('login.html')    
-
-
-
-# This method checks to check if a username is in use before registering accounts in register().
-# @author Allen W.
-# @date 4/14/26
-def checkUsername(un):
-    cur = conn.cursor() #establish the cursor for traversing
-    cur.execute('SELECT 1 FROM accounts WHERE username=%s',(un,))
-    result = cur.fetchone()
-    return result is not None
     
     
     
+# Integrate button on homepage for logging out to pair with profile button
+def logout():
+    session.clear() # Wipes the user_id and username
+    return redirect(url_for('homepage'))    
+
+
+
+
+# Integrate later, navigate via Profile button on homepage
+@app.route("/profile", methods = ['GET', 'POST'])
+def profile():
+    if 'username' not in session: #Prevents query injection to access profile info
+        return redirect(url_for('login'))
+    pass #integrate the profile later
+
+
+
+
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False, port=8087)
+    app.run(debug=True, use_reloader=False, port=8050)
