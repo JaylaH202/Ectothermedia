@@ -2,3 +2,6 @@ Flask
 gunicorn
 psycopg2-binary
 flask-weasyprint
+bcrypt
+string
+uuid
