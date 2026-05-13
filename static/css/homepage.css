@@ -201,6 +201,7 @@ p4{
     text-align: center;
 
 }
+
 .symptomSearch{
     z-index: 2;
 	display: flex;
@@ -217,24 +218,7 @@ p4{
     background-color: #e7e1d7;
     
 }
-.symptomSearchBTN{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none; /* removes the gray box if you want just the icon */
-    border: none;      /* removes the border */
-    padding: 5px;
-    
-}
 
-/* search icon */
-.symptomSearch .material-symbols-outlined {
-    position: absolute;
-    right:10px;
-    top:10px;
-    font-size: 24px; 
-    color: #27190d; 
-}
 
 p3{
     display:block;
