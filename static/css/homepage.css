@@ -195,10 +195,12 @@ p4{
 .triageDiv{
     color:#27190d;
     background-color:#a0b69c;
-    max-width: 1500px;
+    max-width: 1700px;
 	margin: 0 auto;
     z-index: 1;
     text-align: center;
+	
+	padding-bottom: 20px; 
 
 }
 
@@ -246,12 +248,12 @@ p3{
 }
 
 .symptomList{
-	position: absolute;
+	
     background-color: #e7e1d7;
     color: #27190d;
     width: 250px;
     min-height: 190px;
-    left: 0;
+    
     top: 100%;
 	margin-top: 10px;
     z-index: 5;
