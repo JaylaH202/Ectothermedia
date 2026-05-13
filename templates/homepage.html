@@ -97,37 +97,38 @@ Use our Symptom Search feature to enter the signs you’re observing and explore
             <button id="enterBTN" class="enterBTN">ENTER</button>
     
         </div>
-    </div>
-    <!-- RESULTS SECTION (hidden until ENTER is clicked) -->
-    <div id="resultsSection" style="display: none;">
     
-    <div class="resultsContainer">
-
-        <!-- LEFT: dynamically generated condition/ailment results -->
-        <div class="conditionsBox">
-            <h3>Conditions that Match Symptoms</h3>
-
-            <!-- Container where JS inserts condition "boxes" -->
-            <div id="conditionsList"></div>
-            <div id="animalCheckboxes" class="animalCheckboxes"></div>
-            <button id="backBTN" class="enterBTN">BACK</button>
-
-        </div>
-
-        <!-- RIGHT (state 1): shows selected symptoms -->
-        <div id="symptomsBox" class="symptomsBox">
-            <h3>My Reptile’s Symptoms</h3>
-            <div class="selectedSymptoms" id="selectedSymptoms"></div>
-
-        </div>
+        <!-- RESULTS SECTION (hidden until ENTER is clicked) -->
+        <div id="resultsSection" style="display: none;">
         
-        <!-- RIGHT (state 2): shows condition details when clicked -->
-        <div id="detailsBox" class="detailsBox" style="display: none;">
-            <h3>Details & Treatment</h3>
-        <div id="selectedCondition"></div>
+        <div class="resultsContainer">
+    
+            <!-- LEFT: dynamically generated condition/ailment results -->
+            <div class="conditionsBox">
+                <h3>Conditions that Match Symptoms</h3>
+    
+                <!-- Container where JS inserts condition "boxes" -->
+                <div id="conditionsList"></div>
+                <div id="animalCheckboxes" class="animalCheckboxes"></div>
+                <button id="backBTN" class="enterBTN">BACK</button>
+    
+            </div>
+    
+            <!-- RIGHT (state 1): shows selected symptoms -->
+            <div id="symptomsBox" class="symptomsBox">
+                <h3>My Reptile’s Symptoms</h3>
+                <div class="selectedSymptoms" id="selectedSymptoms"></div>
+    
+            </div>
+            
+            <!-- RIGHT (state 2): shows condition details when clicked -->
+            <div id="detailsBox" class="detailsBox" style="display: none;">
+                <h3>Details & Treatment</h3>
+            <div id="selectedCondition"></div>
+            </div>
+    
         </div>
-
-    </div>
+    </div>      
 
     
 
