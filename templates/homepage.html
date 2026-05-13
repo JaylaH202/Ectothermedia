@@ -68,37 +68,38 @@
         Concerned about your reptile’s health?
 Use our Symptom Search feature to enter the signs you’re observing and explore possible conditions associated with those symptoms.
     </p3>
-     
- <!-- Symptom input + search trigger -->
-    <div class="symptomSearch">
-        <input onclick="symptListFunction()" class="symptomInput" type="text" placeholder="Enter Symptoms" name="symptoms" id="symptomInput"> 
-        <button class="symptomSearchBTN" type="submit" >
-            <span class="material-symbols-outlined">search</span>
-        </button>
+
+    <div class ="symptomSearchWrapper">
+     <!-- Symptom input + search trigger -->
+        <div class="symptomSearch">
+            <input onclick="symptListFunction()" class="symptomInput" type="text" placeholder="Enter Symptoms" name="symptoms" id="symptomInput"> 
+            <button class="symptomSearchBTN" type="submit" >
+                <span class="material-symbols-outlined">search</span>
+            </button>
+        </div>
+    
+       <!-- Hidden symptom checklist (appears when input is clicked) -->
+        <div class="symptomList" style="display: none;" id="symptomList">
+            <h4>Symptoms</h4>
+            <label>
+            <input type="checkbox" class="symptomBox" value="Lethargy">
+            Lethargy
+            </label>
+    
+            <label>
+            <input type="checkbox" class="symptomBox" value="Loss of appetite">
+            Loss of appetite
+            </label>
+    
+            <label>
+            <input type="checkbox" class="symptomBox" value="Discharge">
+            Discharge
+            </label>
+    
+            <button id="enterBTN" class="enterBTN">ENTER</button>
+    
+        </div>
     </div>
-
-   <!-- Hidden symptom checklist (appears when input is clicked) -->
-    <div class="symptomList" style="display: none;" id="symptomList">
-        <h4>Symptoms</h4>
-        <label>
-        <input type="checkbox" class="symptomBox" value="Lethargy">
-        Lethargy
-        </label>
-
-        <label>
-        <input type="checkbox" class="symptomBox" value="Loss of appetite">
-        Loss of appetite
-        </label>
-
-        <label>
-        <input type="checkbox" class="symptomBox" value="Discharge">
-        Discharge
-        </label>
-
-        <button id="enterBTN" class="enterBTN">ENTER</button>
-
-    </div>
-   
     <!-- RESULTS SECTION (hidden until ENTER is clicked) -->
     <div id="resultsSection" style="display: none;">
     
