@@ -253,14 +253,23 @@ p3{
 }
 
 /* Hidden symptom checkbox dropdown */
+
+.symptomSearchWrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .symptomList{
-    position: absolute;
+	position: absolute;
     background-color: #e7e1d7;
     color: #27190d;
     width: 250px;
     min-height: 190px;
-    left: 770px;
-    top: 165px;
+    left: 0;
+    top: 100%;
+	margin-top: 10px;
     z-index: 5;
     padding: 15px;
     text-align: left;
