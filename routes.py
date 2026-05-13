@@ -42,7 +42,7 @@ except Exception as e:
 
 @app.route("/")
 def homepage():
-    return render_template('homepage.html')
+    return render_template('homepage.html',username=session.get('username')
 
 
 
@@ -245,9 +245,13 @@ def login():
     
     
 # Integrate button on homepage for logging out to pair with profile button
+@app.route("/logout")
 def logout():
-    session.clear() # Wipes the user_id and username
-    return redirect(url_for('homepage'))    
+    session.clear()
+    return redirect(url_for('homepage'))
+# def logout():
+#     session.clear() # Wipes the user_id and username
+#     return redirect(url_for('homepage'))    
 
 
 
