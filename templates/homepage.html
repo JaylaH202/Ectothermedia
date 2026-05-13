@@ -55,10 +55,23 @@
                 </a>
                 
         </div>
-        <p2>Track your reptile pet's cycles with ease!<br>Log in or Sign up to get started.</p2>
+        <p2>Track your reptile pet's cycles with ease!<br>
 
-        <a href ="login" class="loginBTN">Login</a>
-        <a href ="register" class="signupBTN">Sign Up</a>
+            {%if username %}
+                Welcome back,{{username}}!
+            {% else %}
+                Log in or Sign up to get started.
+            {% endif %}
+        </p2>
+
+        {% if username %}
+            <a href="/profile" class="loginBTN">Profile</a>
+            <a href="/logout" class="signupBTN">Logout</a>
+        {% else %}
+            <a href="/login" class="loginBTN">Login</a>
+            <a href="/register" class="signupBTN">Sign Up</a>
+        {% endif %}
+           
     </div>
 </div>
 
