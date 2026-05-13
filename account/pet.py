@@ -1,134 +1,78 @@
-# Pet.py
-# @author Allen Russell
-# @date created: 3/31/26
+# pet.py
+# @author Allen Wittika
 #
-# This class implements the pet child domain, which implements functions for
-# storing data on an individual reptilian pet
+# Handles the pet parameter handling as well as assigning the pet and modifying pet.
 
 
-# The Pet class
-class Pet:
-    
-    
-    # Pet Constructor
+class Pet():
+
+
     #
-    # Creates the individual Pet data object
+    # @param name
+    # @param age
+    # @param gender
+    # @param species
     #
-    # @param name: Pet's name: String
-    # @param species: Pet's species: String: Immutable
-    # @param age: Pet's age: Int
+    # @require name is an alphabetical string and is between 8 and 12 characters
+    # @require age is number and < 100 (none of our species in DB age past this)
+    # @require gender is either an F or M
+    # @require species is an alphabetical string and =< 36 characters
     #
-    # @require name is a string
-    # @require species is a string
-    # @require age is a string
-    def __init__(self, name, species, age):
-        
-        # Should name not be a string:
-        if not isinstance(name, str):
-            raise TypeError("Name must be a string.")
-        
-        # Should species not be a string:
-        if not isinstance(species, str):
-            raise TypeError("Species must be a string.")
-        
-        # Should age not be a int or float to convert to int:
-        if not (isinstance(age, int) or isinstance(age, float)):
-            raise TypeError("Age must be a integer or float for conversion to int.")
-        
-        # Assigns the values to their respective class variables
+    # @ensure variables are properly set
+    def __init__(self, name, age, gender, species):
+
+        if not name.isalpha() or 3 > len(name) > 12:
+            raise TypeError("Error: Pet's name must be alphabetical and between 3 and 12 characters")
+
+        if age < 0 or age > 100:
+            raise TypeError("Error: Pet's age must be between 0 and under 100")
+
+        # should not occur error-wise since check-box determines this input and input can be empty
+        if gender is not None and gender not in ["M", "F"]:
+            raise TypeError("Error: Pet's gender must be 'M' or 'F' if filled out")
+
+        if not species.isalpha() and 0 > len(species) > 36:
+            raise TypeError("Error: Pet's species must be a 36-character max alphabetical string, and cannot be empty.")
+
         self.name = name
-        self._species = species
-        self.age = int(age)
+        self.age = age
+        self.gender = gender
+        self.species = species
 
 
 
-    # The special methods: __str__ and __repr__ for use in keeping the password hidden to minimize security risk
-    
-    # __repr__ method
-    #
-    # method returns a formatted string with delimiters (;) to seperate
-    # the values later for displaying
-    #
-    # @param self
-    def __repr__(self):
-        return f"{self.name}; {self._species}; {self.age}"
-        
-        
-        
-    # __str__ method
-    #
-    # methods primarily for readability while testing
-    #
-    # @param self
-    def __str__(self):
-        return f"Name: {self.name}\n\tSpecies: {self._species}\n\n\t{self.name} is {self.age} years old."
-        
 
-
-    # Mutator and Accesor methods as needed
-    
-    # Accessor for the pet's name
+    # Mutator for updating the name when request to change it is made.
+    # @param new name
     #
-    # @param self
+    # @require parameter is rechecked
     #
-    # @return name
-    def getName(self):
-        return self.name
-    
-    
-    
-    # Accessor for the pet's species
-    #
-    # @param self
-    #
-    # @return species
-    def getSpecies(self):
-        return self._species
-    
-    
-    
-    # Accessor for the pet's age
-    #
-    # @param self
-    #
-    # @return age
-    def getAge(self):
-        return self.age
-    
-    
-    
-    # Mutator for the pet's name
-    #
-    # @param name: new name
-    #
-    # @require new name is not already curr name
-    #
-    # @ensure name is properly set to new name
-    def changeName(self, name):
-        
-        # Should new name be current name:
+    # @ensure name is not curr name
+    def update_name(self, name):
+        # Don't make new username the current username
         if name is self.name:
-            return False, "Pet's new name should be different."
-        # Otherwise, set the new name
-        else:
-            self.name = name
-            return True, "Successfully changed."
-        
-        
+            raise ValueError(f"{name} already has this name..")
+        # Retest the constraint
+        if not name.isalpha() and 8 > len(name) > 12:
+            raise TypeError("Pet's name must be alphabetical and between 8 and 12 characters")
+        # Calls constructor to call the constraints to prevent incorrect injection
+        self.name = name
 
-    # Mutator for the pet's age
+
+
+
+    # Mutator for updating the age when request to change it is made.
+    # @param new age
     #
-    # @param age: new age
+    # @require parameter is rechecked
     #
-    # @require new age is not already curr age
-    #
-    # @ensure age is properly updated to new age
-    def updateAge(self, age):
-        
-        # Should new age be current age:
+    # @ensure age is not curr age
+    def update_age(self, age):
+        # Don't make new username the current username
         if age is self.age:
-            return False, "Pet's updated age should be different."
-        # Otherwise, set the new name
-        else:
-            self.age = age
-            return True, "Successfully updated."
+            raise ValueError(f"{self.name} is already {age} years old..")
+        # Retest the constraint
+        if age < 0 or age > 100:
+            raise TypeError("Pet's age must be between 0 and under 100")
+        # Calls constructor to call the constraints to prevent incorrect injection
+        self.age = age
