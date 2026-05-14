@@ -41,6 +41,21 @@ p2{
 
 }
 
+a.profileBTN{
+    position: absolute;
+    background-color: #e7e1d7;
+    border-radius: 10px;
+    text-align: center;
+    color:#27190d;
+    font-weight: bold;
+    font-family: fredoka;
+    font-size: 23px;
+    width: 120px;
+    height:40px;
+    bottom:40px;
+    left: 180px;
+
+}
 a.signupBTN{
     position: absolute;
     background-color: #e7e1d7;
