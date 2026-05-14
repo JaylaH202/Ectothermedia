@@ -8,7 +8,7 @@
 # Imports the needed libraries and dependencies
 #from account.account import *
 from flask import Flask, render_template, request, redirect, url_for, session
-from psycopg2 import connect
+import psycopg2
 from dotenv import load_dotenv
 import os
 from account.account import Account
