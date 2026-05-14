@@ -42,7 +42,7 @@ except Exception as e:
 
 @app.route("/")
 def homepage():
-    return render_template('homepage.html',username=session.get('username')
+    return render_template('homepage.html',username=session.get('username'))
 
 
 
