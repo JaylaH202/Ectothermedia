@@ -102,6 +102,26 @@ a.loginBTN{
 
 }
 
+
+
+/* Container link settings */
+.img-btn {
+    display: inline-block;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+/* Image button sizing */
+.img-btn img {
+    width: 150px; /* Adjust width as needed */
+    height: auto; /* Maintains aspect ratio */
+    display: block;
+    transition: transform 0.2s ease; /* Smooth hover effect */
+}
+
+
+
+
 .categoriesList{
     display:flex;
     flex-direction: row;
