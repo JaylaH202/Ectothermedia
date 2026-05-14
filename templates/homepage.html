@@ -64,20 +64,12 @@
             {% endif %}
         </p2>
         
-        {% if username %} 
-            <a href="/profile" class="img-btn">
-                <img src="/static/images/profile.png" alt="Profile">
-            </a> 
-            <a href="/logout" class="img-btn">
-                <img src="/static/images/logout.png" alt="Logout">
-            </a> 
-        {% else %} 
-            <a href="/login" class="img-btn">
-                <img src="/static/images/login_button.png" alt="Login">
-            </a> 
-            <a href="/register" class="img-btn">
-                <img src="/static/images/register_button.png" alt="Sign Up">
-            </a> 
+        {{% if username %}
+            <a href="/profile" class="profileBTN">Profile</a>
+            <a href="/logout" class="logoutbtn">Logout</a>
+        {% else %}
+            <a href="/login" class="loginBTN">Login</a>
+            <a href="/register" class="signupBTN">Sign Up</a>
         {% endif %}
 
            
