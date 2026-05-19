@@ -256,13 +256,124 @@ def logout():
 
 
 
-# Integrate later, navigate via Profile button on homepage
+
+# This function loads the profile based on data from the database
+# after validating session access
+#
+# @author Allen Russell
+# @date 5/12/26
 @app.route("/profile", methods = ['GET', 'POST'])
 def profile():
-    if 'username' not in session: #Prevents query injection to access profile info
+    if 'username' not in session: #Maintain access control
         return redirect(url_for('login'))
-    pass #integrate the profile later
 
+    # Grab the username
+    username = session['username']
+
+    cursor = conn.cursor() # connect to cursor
+
+    # Pull the account for display
+    cursor.execute('SELECT user_id FROM accounts WHERE username = %s', (us>
+    result = cursor.fetchone()
+
+    # If account pulled, grab the related pet table entries and display th>
+    if result:
+        user_id = int(result[0])
+
+        # Fetch all pets linked to this user's ID
+        cursor.execute('SELECT * FROM pets WHERE account_id = %s', (user_i>
+        pets = cursor.fetchall()
+
+        return render_template('profile.html', username=username, uid=user>
+
+    #If error: redirect to home
+    return redirect(url_for('homepage'))
+# This function adds the pet to the database after validating input
+# as well as after validating session access
+#
+# @author Allen Russell
+# @date 5/14/26
+@app.route('/profile/add_pet', methods=['POST'])
+def addPet():
+    if 'username' not in session:# Maintain access control
+        return redirect(url_for('login'))
+
+    try:
+        # Get data from the form
+        name = request.form.get('name')
+        age = int(request.form.get('age'))
+        gender = request.form.get('gender')
+        species = request.form.get('species')
+
+        #validate the inputs:
+        if not name.isalpha() or 3 > len(name) > 12:
+            raise TypeError("Error: Pet's name must be alphabetical and between 3 and 12 characters")
+
+        if age < 0 or age > 100:
+            raise TypeError("Error: Pet's age must be between 0 and under 100")
+
+        # should not occur error-wise since check-box determines this input and input can be empty
+        if gender is not None and gender not in ["M", "F"]:
+            raise TypeError("Error: Pet's gender must be 'M' or 'F' if filled out")
+
+        if not species.isalpha() and 0 > len(species) > 36:
+            raise TypeError("Error: Pet's species must be a 36-character max alphabetical string, and cannot be >
+
+        # Pull account info for linking pet to user
+        username = session['username']
+        cursor = conn.cursor()
+        cursor.execute('SELECT user_id FROM accounts WHERE username = %s', (username,))
+        result = cursor.fetchone()
+
+        user_id = int(result[0]) #store user_id
+
+        # insert pet into database
+        cursor.execute('INSERT INTO pets (account_id, pet_name, age, gender, species) VALUES (%s, %s, %s, %s, %s>
+        conn.commit() # save to the database
+
+        return redirect(url_for('profile'))
+
+    except (TypeError, ValueError) as e:
+        #If error: reload profile, and display the error to the user
+        flash(str(e))
+        return redirect(url_for('profile'))
+
+
+# This function removes the pet from the database via the name, species, and user's id
+# as well as after validating session access
+#
+# @author Allen Russell
+# @date 5/14/26
+@app.route('/profile/remove_pet/<name>/<species>', methods=['POST'])
+def removePet(name, species):
+    if 'username' not in session:  # Maintain access control
+        return redirect(url_for('login'))
+
+    try:
+        # Pull account info for linking pet to user
+        username = session['username']
+        cursor = conn.cursor()
+        cursor.execute('SELECT user_id FROM accounts WHERE username = %s', (username,))
+        result = cursor.fetchone()
+
+        if not result:
+            return redirect(url_for('login'))
+
+        user_id = int(result[0]) # store user_id
+
+        # Delete pet from database ensuring it belongs to the logged-in user
+        cursor.execute(
+            'DELETE FROM pets WHERE account_id = %s AND pet_name = %s AND species = %s',
+            (user_id, name, species)
+        )
+        conn.commit() # save changes to the database
+
+        return redirect(url_for('profile'))
+
+    except (TypeError, ValueError) as e:
+        # If error: reload profile, and display the error to the user
+        flash(str(e))
+        return redirect(url_for('profile'))
 
 
 
