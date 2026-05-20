@@ -282,10 +282,10 @@ def profile():
         user_id = int(result[0])
 
         # Fetch all pets linked to this user's ID
-		cursor.execute('SELECT * FROM pets WHERE account_id = %s', (user_id,))
-		pets = cursor.fetchall()
+	    cursor.execute('SELECT * FROM pets WHERE account_id = %s', (user_id,))
+        pets = cursor.fetchall()
 
-		return render_template('profile.html', username=username, uid=user_id, pets=pets)
+	    return render_template('profile.html', username=username, uid=user_id, pets=pets)
 
     #If error: redirect to home
     return redirect(url_for('homepage'))
