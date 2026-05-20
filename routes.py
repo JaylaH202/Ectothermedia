@@ -273,8 +273,10 @@ def profile():
     cursor = conn.cursor() # connect to cursor
 
     # Pull the account for display
-    cursor.execute('SELECT user_id FROM accounts WHERE username = %s', (us>
-    result = cursor.fetchone()
+    # Note the two closing parentheses: ))
+	cursor.execute('SELECT user_id FROM accounts WHERE username = %s', (username,))
+	result = cursor.fetchone()
+
 
     # If account pulled, grab the related pet table entries and display th>
     if result:
