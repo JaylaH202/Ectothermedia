@@ -274,7 +274,7 @@ def profile():
 
     # Pull the account for display
     # Note the two closing parentheses: ))
-	cursor.execute('SELECT user_id FROM accounts WHERE username = %s', (username,))
+    cursor.execute('SELECT user_id FROM accounts WHERE username = %s', (username,))
 	result = cursor.fetchone()
 
 
