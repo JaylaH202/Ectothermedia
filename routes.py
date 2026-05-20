@@ -175,7 +175,7 @@ def register():
         
         try: # If success: Connect the Table and add the account
             acc = Account(un, pw) # Attempts to safely create the account
-            cursor.execute('INSERT INTO accounts (username, password) VALUES (%s, %s) RETURNING user_id', (un, acc.getHash())) #Adds account to table
+			cursor.execute('INSERT INTO accounts (username, password) VALUES (%s, %s) RETURNING user_id', (un, acc.getHash())) #Adds account to table
             # Retrieve the ID from the cursor
             user_id = cursor.fetchone()
             user_id = user_id[0]            
@@ -242,16 +242,15 @@ def login():
     # No post, load page to get login credentials
     return render_template('login.html')    
     
-    
-    
+
+
+
 # Integrate button on homepage for logging out to pair with profile button
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for('homepage'))
-# def logout():
-#     session.clear() # Wipes the user_id and username
-#     return redirect(url_for('homepage'))    
+   
 
 
 
@@ -313,8 +312,8 @@ def addPet():
         if age < 0 or age > 100:
             raise TypeError("Error: Pet's age must be between 0 and under 100")
 
-        # should not occur error-wise since check-box determines this input and input can be empty
-        if gender is not None and gender not in ["M", "F"]:
+        # should not occur error-wise since check-box determines this 
+        if gender is None or gender not in ["M", "F"]:
             raise TypeError("Error: Pet's gender must be 'M' or 'F' if filled out")
 
         if not species.isalpha() and 0 > len(species) > 36:
