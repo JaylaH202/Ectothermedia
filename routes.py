@@ -254,8 +254,6 @@ def logout():
 
 
 
-
-
 # This function loads the profile based on data from the database
 # after validating session access
 #
@@ -264,7 +262,7 @@ def logout():
 @app.route("/profile", methods = ['GET', 'POST'])
 def profile():
     if 'username' not in session: #Maintain access control
-        return redirect(url_for('login'))
+    	return redirect(url_for('login'))
 
     # Grab the username
     username = session['username']
@@ -275,19 +273,21 @@ def profile():
     cursor.execute('SELECT user_id FROM accounts WHERE username = %s', (username,))
     result = cursor.fetchone()
 
-
-    # If account pulled, grab the related pet table entries and display th>
+    # If account pulled, grab the related pet table entries and display
     if result:
         user_id = int(result[0])
 
         # Fetch all pets linked to this user's ID
-	    cursor.execute('SELECT * FROM pets WHERE account_id = %s', (user_id,))
-        pets = cursor.fetchall()
-
+		cursor.execute('SELECT * FROM pets WHERE account_id = %s', (user_id,))
+		pets = cursor.fetchall()
 	    return render_template('profile.html', username=username, uid=user_id, pets=pets)
 
     #If error: redirect to home
     return redirect(url_for('homepage'))
+
+
+
+
 # This function adds the pet to the database after validating input
 # as well as after validating session access
 #
@@ -307,7 +307,7 @@ def addPet():
 
         #validate the inputs:
         if not name.isalpha() or 3 > len(name) > 12:
-            raise TypeError("Error: Pet's name must be alphabetical and between 3 and 12 characters")
+        	raise TypeError("Error: Pet's name must be alphabetical and between 3 and 12 characters")
 
         if age < 0 or age > 100:
             raise TypeError("Error: Pet's age must be between 0 and under 100")
@@ -320,7 +320,7 @@ def addPet():
             raise TypeError("Error: Pet's species must be a 36-character max alphabetical string")
 
         # Pull account info for linking pet to user
-        username = session['username']
+		username = session['username']
         cursor = conn.cursor()
         cursor.execute('SELECT user_id FROM accounts WHERE username = %s', (username,))
         result = cursor.fetchone()
@@ -330,7 +330,6 @@ def addPet():
         # insert pet into database
         cursor.execute('INSERT INTO pets (account_id, pet_name, age, gender, species) VALUES (%s, %s, %s, %s, %s)', (user_id, name, age, gender, species))
         conn.commit() # save to the database
-
         return redirect(url_for('profile'))
 
     except (TypeError, ValueError) as e:
@@ -362,10 +361,7 @@ def removePet(name, species):
         user_id = int(result[0]) # store user_id
 
         # Delete pet from database ensuring it belongs to the logged-in user
-        cursor.execute(
-            'DELETE FROM pets WHERE account_id = %s AND pet_name = %s AND species = %s',
-            (user_id, name, species)
-        )
+        cursor.execute('DELETE FROM pets WHERE account_id = %s AND pet_name = %s AND species = %s', (user_id, name, species))
         conn.commit() # save changes to the database
 
         return redirect(url_for('profile'))
