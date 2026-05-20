@@ -241,7 +241,7 @@ def login():
     
     # No post, load page to get login credentials
     return render_template('login.html')    
-    
+
 
 
 
@@ -250,7 +250,7 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('homepage'))
-   
+
 
 
 
@@ -316,7 +316,7 @@ def addPet():
         if gender is None or gender not in ["M", "F"]:
             raise TypeError("Error: Pet's gender must be 'M' or 'F' if filled out")
 
-        if not species.isalpha() and 0 > len(species) > 36:
+        if not species.isalpha() and len(species) > 36:
             raise TypeError("Error: Pet's species must be a 36-character max alphabetical string")
 
         # Pull account info for linking pet to user
