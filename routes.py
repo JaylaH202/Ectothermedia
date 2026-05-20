@@ -328,7 +328,7 @@ def addPet():
         user_id = int(result[0]) #store user_id
 
         # insert pet into database
-        cursor.execute('INSERT INTO pets (account_id, pet_name, age, gender, species) VALUES (%s, %s, %s, %s, %s>
+        cursor.execute('INSERT INTO pets (account_id, pet_name, age, gender, species) VALUES (%s, %s, %s, %s, %s)', (user_id, name, age, gender, species))
         conn.commit() # save to the database
 
         return redirect(url_for('profile'))
