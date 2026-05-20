@@ -317,7 +317,7 @@ def addPet():
             raise TypeError("Error: Pet's gender must be 'M' or 'F' if filled out")
 
         if not species.isalpha() and 0 > len(species) > 36:
-            raise TypeError("Error: Pet's species must be a 36-character max alphabetical string, and cannot be >
+            raise TypeError("Error: Pet's species must be a 36-character max alphabetical string")
 
         # Pull account info for linking pet to user
         username = session['username']
