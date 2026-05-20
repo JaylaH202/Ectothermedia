@@ -271,7 +271,6 @@ def profile():
     username = session['username']
 
     cursor = conn.cursor() # connect to cursor
-
     # Pull the account for display
     # Note the two closing parentheses: ))
     cursor.execute('SELECT user_id FROM accounts WHERE username = %s', (username,))
@@ -284,9 +283,8 @@ def profile():
 
         # Fetch all pets linked to this user's ID
 		cursor.execute('SELECT * FROM pets WHERE account_id = %s', (user_id,))
-		
 		pets = cursor.fetchall()
-		
+
 		return render_template('profile.html', username=username, uid=user_id, pets=pets)
 
     #If error: redirect to home
